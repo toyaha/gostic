@@ -1,0 +1,17 @@
+# common
+*~
+*.dll
+*.dylib
+*.exe
+*.exe~
+*.out
+*.so
+*.swp
+*.test
+.env
+.DS_Store/
+
+
+# editor
+.idea/
+.vscode
