@@ -6,7 +6,6 @@ import (
 	"errors"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
 	"io"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -25,11 +24,13 @@ func (rec *Response) Init(response *esapi.Response) error {
 	rec.StatusCode = &response.StatusCode
 
 	{
-		body, err := ioutil.ReadAll(response.Body)
+		buf := &bytes.Buffer{}
+		_, err := io.Copy(buf, response.Body)
 		if err != nil {
 			return err
 		}
-		rec.Body = body
+
+		rec.Body = buf.Bytes()
 	}
 
 	return nil
