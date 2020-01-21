@@ -40,10 +40,6 @@ func (rec *Response) GetBody() []byte {
 	return rec.Body
 }
 
-func (rec *Response) GetBodyReader() io.Reader {
-	return bytes.NewReader(rec.Body)
-}
-
 func (rec *Response) GetBodyMap() (map[string]interface{}, error) {
 	var responseMap map[string]interface{}
 	err := json.Unmarshal(rec.Body, &responseMap)
@@ -59,7 +55,8 @@ func (rec *Response) GetBodyString() string {
 }
 
 func (rec *Response) GetBodyStruct(structPtr interface{}) error {
-	err := json.NewDecoder(rec.GetBodyReader()).Decode(&structPtr)
+	reader := bytes.NewReader(rec.Body)
+	err := json.NewDecoder(reader).Decode(&structPtr)
 	if err != nil {
 		return err
 	}
