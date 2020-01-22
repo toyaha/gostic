@@ -26,11 +26,11 @@ func TestClient_Do(t *testing.T) {
 			return
 		}
 
-		var target struct{
+		var target struct {
 			Hits struct {
 				Hits []struct {
-					Source struct{
-						Id int `json:"id"`
+					Source struct {
+						Id   int    `json:"id"`
 						Name string `json:"name"`
 					} `json:"_source"`
 				} `json:"hits"`
@@ -118,7 +118,7 @@ func TestClient_DoWithGetBodyStruct(t *testing.T) {
 			Index: []string{idx},
 			Body:  strings.NewReader(str),
 		}
-		var result struct{
+		var result struct {
 			Aggregations struct {
 				Group struct {
 					Value float64 `json:"value"`
