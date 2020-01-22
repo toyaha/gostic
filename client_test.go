@@ -81,7 +81,7 @@ func TestClient_DoWithGetBodyMap(t *testing.T) {
 			Index: []string{idx},
 			Body:  strings.NewReader(str),
 		}
-		result, err := es.DoWithGetBodyMap(req)
+		result, _, err := es.DoWithGetBodyMap(req)
 		if err != nil {
 			t.Error(err)
 			return
@@ -125,7 +125,7 @@ func TestClient_DoWithGetBodyStruct(t *testing.T) {
 				} `json:"group"`
 			} `json:"aggregations"`
 		}
-		err = es.DoWithGetBodyStruct(req, &result)
+		_, err = es.DoWithGetBodyStruct(req, &result)
 		if err != nil {
 			t.Error(err)
 			return

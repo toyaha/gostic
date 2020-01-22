@@ -56,66 +56,71 @@ func (rec *Client) Do(request esapi.Request) (*Response, error) {
 		return nil, err
 	}
 
-	bodyMap, err := response.GetBodyMap()
-	if err != nil {
-		return nil, err
-	}
-
-	if val, ok := bodyMap["errors"]; ok {
-		if val.(bool) {
-			return nil, errors.New(response.GetBodyString())
+	{
+		var responseMap map[string]interface{}
+		by := response.GetBody()
+		err = json.Unmarshal(by, &responseMap)
+		if err != nil {
+			return nil, err
 		}
+
+		if val, ok := responseMap["errors"]; ok {
+			if val.(bool) {
+				return nil, errors.New(response.GetBodyString())
+			}
+		}
+
 	}
 
 	return response, nil
 }
 
-func (rec *Client) DoWithGetBody(request esapi.Request) ([]byte, error) {
+func (rec *Client) DoWithGetBody(request esapi.Request) ([]byte, *Response, error) {
 	response, err := rec.Do(request)
 	if err != nil {
-		return nil, err
+		return nil, response, err
 	}
 
 	by := response.GetBody()
 
-	return by, nil
+	return by, response, nil
 }
 
-func (rec *Client) DoWithGetBodyMap(request esapi.Request) (map[string]interface{}, error) {
-	by, err := rec.DoWithGetBody(request)
+func (rec *Client) DoWithGetBodyMap(request esapi.Request) (map[string]interface{}, *Response, error) {
+	by, response, err := rec.DoWithGetBody(request)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	var responseMap map[string]interface{}
 	err = json.Unmarshal(by, &responseMap)
 	if err != nil {
+		return nil, nil, err
+	}
+
+	return responseMap, response, nil
+}
+
+func (rec *Client) DoWithGetBodyString(request esapi.Request) (string, *Response, error) {
+	by, response, err := rec.DoWithGetBody(request)
+	if err != nil {
+		return "", nil, err
+	}
+
+	return string(by), response, nil
+}
+
+func (rec *Client) DoWithGetBodyStruct(request esapi.Request, dest interface{}) (*Response, error) {
+	by, response, err := rec.DoWithGetBody(request)
+	if err != nil {
 		return nil, err
-	}
-
-	return responseMap, nil
-}
-
-func (rec *Client) DoWithGetBodyString(request esapi.Request) (string, error) {
-	by, err := rec.DoWithGetBody(request)
-	if err != nil {
-		return "", err
-	}
-
-	return string(by), nil
-}
-
-func (rec *Client) DoWithGetBodyStruct(request esapi.Request, dest interface{}) error {
-	by, err := rec.DoWithGetBody(request)
-	if err != nil {
-		return err
 	}
 
 	reader := bytes.NewReader(by)
 	err = json.NewDecoder(reader).Decode(&dest)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return response, nil
 }
