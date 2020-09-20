@@ -1,11 +1,11 @@
 # gostic
 
 ``` go
-conf := gostic.NewConfigDefault()
-conf.AddAddress(config.EsUrl)
-es, err := gostic.NewClient(conf)
+es, err := gostic.NewClient(nil)
 if err != nil {
     return nil, err
 }
+es.Config.AddAddress(config.EsUrl)
+
 return es, nil
 ```

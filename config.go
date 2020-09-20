@@ -2,19 +2,25 @@ package gostic
 
 import "github.com/elastic/go-elasticsearch/v7"
 
+func NewConfigDefault() *Config {
+	return NewConfig(nil)
+}
+
+func NewConfig(elasticsearchConfig *elasticsearch.Config) *Config {
+	var config = &Config{}
+
+	if elasticsearchConfig == nil {
+		elasticsearchConfig = &elasticsearch.Config{}
+	}
+	config.ElasticConfig = elasticsearchConfig
+
+	return config
+}
+
 type Config struct {
 	ElasticConfig *elasticsearch.Config
 }
 
-func (rec *Config) Init(elasticsearchConfig *elasticsearch.Config) {
-	if elasticsearchConfig == nil {
-		elasticsearchConfig = &elasticsearch.Config{}
-	}
-	rec.ElasticConfig = elasticsearchConfig
-}
-
-func (rec *Config) AddAddress(strList ...string) {
-	for _, val := range strList {
-		rec.ElasticConfig.Addresses = append(rec.ElasticConfig.Addresses, val)
-	}
+func (rec *Config) SetAddress(addressList ...string) {
+	rec.ElasticConfig.Addresses = addressList
 }
