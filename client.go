@@ -65,23 +65,6 @@ func (rec *Client) Do(request esapi.Request) (*Response, error) {
 			return err
 		}
 
-		// todo: bulkの時は必要
-		// {
-		// 	var responseMap map[string]interface{}
-		// 	by := response.GetBody()
-		// 	err = json.Unmarshal(by, &responseMap)
-		// 	if err != nil {
-		// 		return nil, err
-		// 	}
-
-		// 	if val, ok := responseMap["errors"]; ok {
-		// 		if val.(bool) {
-		// 			return nil, errors.New(response.GetBodyString())
-		// 		}
-		// 	}
-
-		// }
-
 		return nil
 	}()
 
@@ -121,4 +104,8 @@ func (rec *Client) DoBulk(request *esapi.BulkRequest) (*Response, error) {
 	}()
 
 	return response, err
+}
+
+func (rec *Client) NewQueryBulk() (*QueryBulk, error) {
+	return NewQueryBulk(rec)
 }

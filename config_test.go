@@ -8,37 +8,9 @@ import (
 )
 
 // func TestNewConfigDefault(t *testing.T) {
-// 	tests := []struct {
-// 		name string
-// 		want *Config
-// 	}{
-// 	}
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			if got := NewConfigDefault(); !reflect.DeepEqual(got, tt.want) {
-// 				t.Errorf("NewConfigDefault() = %v, want %v", got, tt.want)
-// 			}
-// 		})
-// 	}
 // }
 
 // func TestNewConfig(t *testing.T) {
-// 	type args struct {
-// 		elasticsearchConfig *elasticsearch.Config
-// 	}
-// 	tests := []struct {
-// 		name string
-// 		args args
-// 		want *Config
-// 	}{
-// 	}
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			if got := NewConfig(tt.args.elasticsearchConfig); !reflect.DeepEqual(got, tt.want) {
-// 				t.Errorf("NewConfig() = %v, want %v", got, tt.want)
-// 			}
-// 		})
-// 	}
 // }
 
 func TestConfig_SetAddress(t *testing.T) {
@@ -55,7 +27,7 @@ func TestConfig_SetAddress(t *testing.T) {
 		want   []string
 	}{
 		{
-			name: "success",
+			name: "ok",
 			fields: fields{
 				ElasticConfig: &elasticsearch.Config{},
 			},

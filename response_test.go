@@ -7,29 +7,6 @@ import (
 )
 
 // func TestNewResponse(t *testing.T) {
-// 	type args struct {
-// 		response *esapi.Response
-// 	}
-// 	tests := []struct {
-// 		name    string
-// 		args    args
-// 		want    *Response
-// 		wantErr bool
-// 	}{
-// 		// Add test cases.
-// 	}
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			got, err := NewResponse(tt.args.response)
-// 			if (err != nil) != tt.wantErr {
-// 				t.Errorf("NewResponse() error = %v, wantErr %v", err, tt.wantErr)
-// 				return
-// 			}
-// 			if !reflect.DeepEqual(got, tt.want) {
-// 				t.Errorf("NewResponse() = %v, want %v", got, tt.want)
-// 			}
-// 		})
-// 	}
 // }
 
 func TestResponse_GetBody(t *testing.T) {
@@ -44,7 +21,7 @@ func TestResponse_GetBody(t *testing.T) {
 		want   []byte
 	}{
 		{
-			name: "success",
+			name: "ok",
 			fields: fields{
 				Body: []byte(`{"sample"}`),
 			},
@@ -77,7 +54,7 @@ func TestResponse_GetBodyString(t *testing.T) {
 		want   string
 	}{
 		{
-			name: "success",
+			name: "ok",
 			fields: fields{
 				Body: []byte(`{"sample"}`),
 			},
@@ -111,7 +88,7 @@ func TestResponse_GetBodyMap(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "success",
+			name: "ok",
 			fields: fields{
 				Body: []byte(`{"sample":"value"}`),
 			},
@@ -160,7 +137,7 @@ func TestResponse_GetBodyStruct(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "success",
+			name: "ok",
 			fields: fields{
 				Body: []byte(`{"sample":"value"}`),
 			},

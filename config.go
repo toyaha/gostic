@@ -7,7 +7,9 @@ func NewConfigDefault() *Config {
 }
 
 func NewConfig(elasticsearchConfig *elasticsearch.Config) *Config {
-	var config = &Config{}
+	var config = &Config{
+		BulkLimit: 500,
+	}
 
 	if elasticsearchConfig == nil {
 		elasticsearchConfig = &elasticsearch.Config{}
@@ -19,6 +21,7 @@ func NewConfig(elasticsearchConfig *elasticsearch.Config) *Config {
 
 type Config struct {
 	ElasticConfig *elasticsearch.Config
+	BulkLimit     int
 }
 
 func (rec *Config) SetAddress(addressList ...string) {

@@ -10,28 +10,6 @@ import (
 )
 
 // func TestNewClient(t *testing.T) {
-// 	type args struct {
-// 		addressList []string
-// 	}
-// 	tests := []struct {
-// 		name    string
-// 		args    args
-// 		want    *Client
-// 		wantErr bool
-// 	}{
-// 	}
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			got, err := NewClient(tt.args.addressList...)
-// 			if (err != nil) != tt.wantErr {
-// 				t.Errorf("NewClient() error = %v, wantErr %v", err, tt.wantErr)
-// 				return
-// 			}
-// 			if !reflect.DeepEqual(got, tt.want) {
-// 				t.Errorf("NewClient() = %v, want %v", got, tt.want)
-// 			}
-// 		})
-// 	}
 // }
 
 func TestClient_Do(t *testing.T) {
@@ -63,7 +41,7 @@ func TestClient_Do(t *testing.T) {
 			},
 			args: args{
 				request: esapi.CatAliasesRequest{
-					Name: []string{"sample"},
+					Name: []string{testIndexName},
 				},
 			},
 			want: &Response{
@@ -123,7 +101,7 @@ func TestClient_DoBulk(t *testing.T) {
 			},
 			args: args{
 				request: &esapi.BulkRequest{
-					Index: "sample",
+					Index: testIndexName,
 					Body: strings.NewReader(`{"create":{"_id":1}}
 {"long":1}
 `),
@@ -142,7 +120,7 @@ func TestClient_DoBulk(t *testing.T) {
 			},
 			args: args{
 				request: &esapi.BulkRequest{
-					Index: "sample",
+					Index: testIndexName,
 					Body: strings.NewReader(`{"create":{"_id":1}}
 {"long":1}
 `),
