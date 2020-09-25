@@ -16,8 +16,12 @@ func NewClient(config *Config) (*Client, error) {
 
 	err := func() error {
 		if config == nil {
-			config := NewConfig(nil)
-			client.Config = config
+			config = NewConfig(nil)
+		}
+		client.Config = config
+
+		if client.Config.ElasticConfig == nil {
+			return errors.New("elasticConfig not found")
 		}
 
 		{

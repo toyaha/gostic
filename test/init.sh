@@ -2,10 +2,16 @@
 
 
 
-curl -XDELETE http://localhost:9200/sample?pretty
+
+URI=http://localhost:9201
 
 
-curl -XPUT -H "Content-Type: application/json" http://localhost:9200/sample?pretty -d'
+
+
+curl -XDELETE ${URI}/sample?pretty
+
+
+curl -XPUT -H "Content-Type: application/json" ${URI}/sample?pretty -d'
 {
   "mappings": {
     "properties": {
@@ -52,4 +58,4 @@ curl -XPUT -H "Content-Type: application/json" http://localhost:9200/sample?pret
 }'
 
 
-curl -XGET localhost:9200/_alias?pretty
+curl -XGET ${URI}/_alias?pretty

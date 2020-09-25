@@ -1,7 +1,7 @@
 package gostic
 
 const (
-	testEsUri     = "http://localhost:9200"
+	testEsUri     = "http://localhost:9201"
 	testIndexName = "sample"
 )
 
@@ -9,11 +9,14 @@ func testGetClient() (*Client, error) {
 	var client *Client
 
 	err := func() error {
-		es, err := NewClient(nil)
+		conf := NewConfig(nil)
+
+		conf.SetAddress(testEsUri)
+
+		es, err := NewClient(conf)
 		if err != nil {
 			return err
 		}
-		es.Config.SetAddress(testEsUri)
 
 		client = es
 
@@ -27,13 +30,19 @@ func testGetQueryBulk() (*QueryBulk, error) {
 	var query *QueryBulk
 
 	err := func() error {
-		es, err := NewClient(nil)
+		conf := NewConfig(nil)
+
+		conf.SetAddress(testEsUri)
+
+		es, err := NewClient(conf)
 		if err != nil {
 			return err
 		}
-		es.Config.SetAddress(testEsUri)
 
 		query, err = NewQueryBulk(es)
+		if err != nil {
+			return err
+		}
 
 		return nil
 	}()
