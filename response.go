@@ -68,3 +68,7 @@ func (rec *Response) GetBodyStruct(structPtr interface{}) error {
 	// }
 	return json.Unmarshal(rec.Body, structPtr)
 }
+
+func (rec *Response) IsError() bool {
+	return rec.StatusCode > 299
+}
