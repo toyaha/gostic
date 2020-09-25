@@ -58,6 +58,10 @@ func (rec *QueryBulk) do() (*Response, int, error) {
 			return err
 		}
 
+		if res.IsError() {
+			return errors.New(res.GetBodyString())
+		}
+
 		{
 			var responseMap map[string]interface{}
 			err = json.Unmarshal(res.Body, &responseMap)

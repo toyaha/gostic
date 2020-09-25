@@ -79,7 +79,7 @@ func (rec *Client) DoBulk(request *esapi.BulkRequest) (*Response, error) {
 			return err
 		}
 
-		if response.StatusCode > 299 {
+		if response.IsError() {
 			return errors.New(response.GetBodyString())
 		}
 
