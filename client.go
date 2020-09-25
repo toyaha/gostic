@@ -1,11 +1,9 @@
 package gostic
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
-	"io"
 
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
@@ -55,15 +53,6 @@ func (rec *Client) Do(request esapi.Request) (*Response, error) {
 			_ = res.Body.Close()
 		}()
 
-		if res.IsError() {
-			by := &bytes.Buffer{}
-			_, err := io.Copy(by, res.Body)
-			if err != nil {
-				return errors.New("response error")
-			}
-			return errors.New(by.String())
-		}
-
 		response, err = NewResponse(res)
 		if err != nil {
 			return err
@@ -88,6 +77,10 @@ func (rec *Client) DoBulk(request *esapi.BulkRequest) (*Response, error) {
 		response, err = rec.Do(request)
 		if err != nil {
 			return err
+		}
+
+		if response.StatusCode > 299 {
+			return errors.New(response.GetBodyString())
 		}
 
 		{
